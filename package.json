@@ -1,0 +1,33 @@
+{
+  "name": "curso-nodejs-api-rest-expressjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "lint": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Phoebe-WD/nodejs-api-rest-expressjs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Phoebe-WD/nodejs-api-rest-expressjs/issues"
+  },
+  "homepage": "https://github.com/Phoebe-WD/nodejs-api-rest-expressjs#readme",
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.4"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "faker": "^5.5.3"
+  }
+}
