@@ -66,6 +66,8 @@ Para crear data falsa hay que instalar Faker
 
 - [Express Doc](http://expressjs.com/)
 - [Git Ignore Config](https://www.toptal.com/developers/gitignore/)
+- [Extension JSON Viewer](https://chrome.google.com/webstore/detail/json-viewer/gbmdgpbipfallnflgajpaliibnhdgobh/related)
+- [Faker Doc](https://www.npmjs.com/package/faker/v/5.5.3)
 
 
 ## ¿Qué es una RESTful API?
@@ -93,6 +95,7 @@ Metodos:
 ### Web Services
 
 Explicación de conceptos [aquí](https://aldeahost.com.mx/todo-lo-que-necesitas-saber-sobre-el-web-service/)
+
 ![](https://static.platzi.com/media/user_upload/Captura-d336ab2e-8e2d-40a4-808a-ee3da1fbdaef.jpg)
 
 ### Endpoints
@@ -111,3 +114,17 @@ app.get('/products/:id', (req, res) => {
   });
 });
 ```
+___
+
+```
+// Creación middleware interno de express
+app.use(express.json());
+```
+___
+[HTTP responses](https://http.cat/)
+
+- Informational responses (100 – 199)
+- Successful responses (200 – 299)
+- Redirection messages (300 – 399)
+- Client error responses (400 – 499)
+- Server error responses (500 – 599)
