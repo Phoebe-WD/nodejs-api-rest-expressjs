@@ -17,15 +17,40 @@ class ProductService {
       });
     }
   }
-  create() {}
+  create(data) {
+    const newProduct = {
+      id: faker.datatype.uuid(),
+      ...data,
+    };
+    this.product.push(newProduct);
+    return newProduct;
+  }
   find() {
     return this.product;
   }
   findOne(id) {
     return this.product.find((item) => item.id === id);
   }
-  update() {}
-  delete() {}
+  update(id, changes) {
+    const index = this.product.findIndex((item) => item.id === id);
+    if (index === -1) {
+      throw new Error('product not found');
+    }
+    const product = this.product[index];
+    this.product[index] = {
+      ...product,
+      ...changes,
+    };
+    return this.product[index];
+  }
+  delete(id) {
+    const index = this.product.findIndex((item) => item.id === id);
+    if (index === -1) {
+      throw new Error('product not found');
+    }
+    this.product.splice(index, 1);
+    return { id };
+  }
 }
 
 module.exports = ProductService;

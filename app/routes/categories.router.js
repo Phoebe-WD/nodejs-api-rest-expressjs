@@ -1,18 +1,17 @@
 // Traemos express
 const express = require('express');
 // Traemos Faker
-const faker = require('faker');
+// const faker = require('faker');
+// Traemos nuestro servicio
+const CategoryService = require('../services/categories.service');
+// Creamos una instancia de nuestro servicio
+const service = new CategoryService();
 // Creamos nuestro router
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  const categories = [];
-  for (let i = 0; i < 100; i++) {
-    categories.push({
-      categoryName: faker.commerce.department(),
-      products: [],
-    });
-  }
+  const categories = service.find();
+
   // Aquí enviamos nuestra respuesta
   res.status(200).json(categories);
 });
@@ -43,34 +42,19 @@ router.get('/:categoryId/products/:productId', (req, res) => {
 });
 router.post('/', (req, res) => {
   const body = req.body;
-  res.status(201).json({
-    message: 'created',
-    data: body,
-  });
+  const category = service.create(body);
+  res.status(201).json(category);
 });
 router.patch('/:categoryId', (req, res) => {
   const { categoryId } = req.params;
   const body = req.body;
-  res.json({
-    message: 'update',
-    data: body,
-    categoryId,
-  });
+  const category = service.update(categoryId, body);
+  res.json(category);
 });
-router.put('/:categoryId', (req, res) => {
-  const { categoryId } = req.params;
-  const body = req.body;
-  res.json({
-    message: 'update',
-    data: body,
-    categoryId,
-  });
-});
+
 router.delete('/:categoryId', (req, res) => {
   const { categoryId } = req.params;
-  res.json({
-    message: 'delete',
-    categoryId,
-  });
+  const category = service.delete(categoryId);
+  res.json(category);
 });
 module.exports = router;
