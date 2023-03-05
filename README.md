@@ -128,3 +128,22 @@ ___
 - Redirection messages (300 – 399)
 - Client error responses (400 – 499)
 - Server error responses (500 – 599)
+
+
+### Middlewares
+Un **Middleware** es un manejador de peticiones antes de que lleguen a su endpoint final
+
+[Documentación de Express.js](https://expressjs.com/en/guide/writing-middleware.html) para entender cómo escribir middlewares, qué son y qué [casos de uso](https://expressjs.com/en/guide/using-middleware.html) le puedes dar en tus apps como:
+
+- Middleware a nivel de aplicación
+- Middleware a nivel de direccionamiento (routers)
+- Middleware para manejo de errores
+- Middlewares incorporados
+- Middleware de terceros
+
+Casos de usos según el profe:
+- Funcionar como pipes
+- Validación de datos
+- Capturar Errores
+- Validar Permisos
+- Controlar Accesos

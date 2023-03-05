@@ -9,52 +9,72 @@ const service = new CategoryService();
 // Creamos nuestro router
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  const categories = service.find();
+router.get('/', async (req, res, next) => {
+  try {
+    const categories = await service.find();
 
-  // Aquí enviamos nuestra respuesta
-  res.status(200).json(categories);
+    // Aquí enviamos nuestra respuesta
+    res.status(200).json(categories);
+  } catch (err) {
+    next(err);
+  }
 });
-router.get('/:categoryId/products/:productId', (req, res) => {
+router.get('/:categoryId/products/:productId', async (req, res, next) => {
   // Hacemos la consulta
-  const { categoryId, productId } = req.params;
-  // Aquí enviamos nuestra respuesta
-  res.json([
-    {
-      categoryId,
-      productId,
-      category: 'Shoes',
-      products: [],
-    },
-    {
-      categoryId,
-      productId,
-      category: 'Boots',
-      products: [],
-    },
-    {
-      categoryId,
-      productId,
-      category: 'Slippers',
-      products: [],
-    },
-  ]);
+  try {
+    const { categoryId, productId } = req.params;
+    // Aquí enviamos nuestra respuesta
+    res.json([
+      {
+        categoryId,
+        productId,
+        category: 'Shoes',
+        products: [],
+      },
+      {
+        categoryId,
+        productId,
+        category: 'Boots',
+        products: [],
+      },
+      {
+        categoryId,
+        productId,
+        category: 'Slippers',
+        products: [],
+      },
+    ]);
+  } catch (err) {
+    next(err);
+  }
 });
-router.post('/', (req, res) => {
-  const body = req.body;
-  const category = service.create(body);
-  res.status(201).json(category);
+router.post('/', async (req, res, next) => {
+  try {
+    const body = req.body;
+    const category = await service.create(body);
+    res.status(201).json(category);
+  } catch (err) {
+    next(err);
+  }
 });
-router.patch('/:categoryId', (req, res) => {
-  const { categoryId } = req.params;
-  const body = req.body;
-  const category = service.update(categoryId, body);
-  res.json(category);
+router.patch('/:categoryId', async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+    const body = req.body;
+    const category = await service.update(categoryId, body);
+    res.json(category);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.delete('/:categoryId', (req, res) => {
-  const { categoryId } = req.params;
-  const category = service.delete(categoryId);
-  res.json(category);
+router.delete('/:categoryId', async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+    const category = await service.delete(categoryId);
+    res.json(category);
+  } catch (err) {
+    next(err);
+  }
 });
 module.exports = router;

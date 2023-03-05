@@ -9,33 +9,52 @@ const service = new BrandService();
 // Creamos nuestro router
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  const brands = service.find();
-
-  // Aquí enviamos nuestra respuesta
-  res.status(200).json(brands);
+router.get('/', async (req, res, next) => {
+  try {
+    const brands = await service.find();
+    // Aquí enviamos nuestra respuesta
+    res.status(200).json(brands);
+  } catch (err) {
+    next(err);
+  }
 });
-router.get('/:brandId', (req, res) => {
-  // Hacemos la consulta
-  const { brandId } = req.params;
-  const brand = service.findOne(brandId);
-  // Aquí enviamos nuestra respuesta
-  res.status(200).json(brand);
+router.get('/:brandId', async (req, res, next) => {
+  try {
+    // Hacemos la consulta
+    const { brandId } = req.params;
+    const brand = await service.findOne(brandId);
+    // Aquí enviamos nuestra respuesta
+    res.status(200).json(brand);
+  } catch (err) {
+    next(err);
+  }
 });
-router.post('/', (req, res) => {
-  const body = req.body;
-  const newBrand = service.create(body);
-  res.json(newBrand);
+router.post('/', async (req, res, next) => {
+  try {
+    const body = req.body;
+    const newBrand = await service.create(body);
+    res.status(201).json(newBrand);
+  } catch (err) {
+    next(err);
+  }
 });
-router.patch('/:brandId', (req, res) => {
-  const { brandId } = req.params;
-  const body = req.body;
-  const brand = service.update(brandId, body);
-  res.json(brand);
+router.patch('/:brandId', async (req, res, next) => {
+  try {
+    const { brandId } = req.params;
+    const body = req.body;
+    const brand = await service.update(brandId, body);
+    res.json(brand);
+  } catch (err) {
+    next(err);
+  }
 });
-router.delete('/:brandId', (req, res) => {
-  const { brandId } = req.params;
-  const brand = service.delete(brandId);
-  res.json(brand);
+router.delete('/:brandId', async (req, res, next) => {
+  try {
+    const { brandId } = req.params;
+    const brand = await service.delete(brandId);
+    res.json(brand);
+  } catch (err) {
+    next(err);
+  }
 });
 module.exports = router;

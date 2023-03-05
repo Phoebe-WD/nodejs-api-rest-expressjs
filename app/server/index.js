@@ -2,6 +2,12 @@
 const express = require('express');
 //importamos nuestro router
 const routerApi = require('../routes');
+// Importamos nuestros middlewares
+const {
+  logError,
+  errorHandler,
+  boomErrorHandler,
+} = require('../middlewares/error.handler');
 // Creamos nuestra app
 const app = express();
 // Declaramos nuestro puerto
@@ -22,7 +28,11 @@ app.get('/nueva-ruta', (req, res) => {
   res.send('Hola, soy una nueva ruta/endpoint');
 });
 routerApi(app);
-
+// Utilizamos los middleware.
+// !Siempre deben ir después del routing:
+app.use(logError);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 /* Le decimos a nuestra app que escuche en el puerto que declaramos
 Creamos un callback para que nos avisé que nuestra app está corriendo */
 app.listen(port, () => {

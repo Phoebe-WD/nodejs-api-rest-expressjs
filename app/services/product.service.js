@@ -1,5 +1,7 @@
 // Traemos Faker
 const faker = require('faker');
+// Traemos Boom
+const boom = require('@hapi/boom');
 class ProductService {
   constructor() {
     this.product = [];
@@ -14,10 +16,11 @@ class ProductService {
         price: parseInt(faker.commerce.price(), 10),
         description: faker.commerce.productDescription(),
         image: faker.image.imageUrl(),
+        isBlock: faker.datatype.boolean(),
       });
     }
   }
-  create(data) {
+  async create(data) {
     const newProduct = {
       id: faker.datatype.uuid(),
       ...data,
@@ -26,27 +29,50 @@ class ProductService {
     return newProduct;
   }
   find() {
-    return this.product;
+    const product = this.product;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (!product) {
+          reject(boom.notFound('products not found'));
+        }
+        resolve(product);
+      }, 2000);
+    });
   }
-  findOne(id) {
-    return this.product.find((item) => item.id === id);
-  }
-  update(id, changes) {
-    const index = this.product.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new Error('product not found');
+  async findOne(id) {
+    const product = this.product.find((item) => item.id === id);
+    if (!product) {
+      throw boom.notFound('product not found');
     }
+    if (product.isBlock) {
+      throw boom.locked('product is locked');
+    }
+    return product;
+  }
+  async update(id, changes) {
+    const index = this.product.findIndex((item) => item.id === id);
     const product = this.product[index];
+    if (index === -1) {
+      throw boom.notFound('product not found');
+    }
+    if (product.isBlock) {
+      throw boom.locked('product is locked');
+    }
+
     this.product[index] = {
       ...product,
       ...changes,
     };
     return this.product[index];
   }
-  delete(id) {
+  async delete(id) {
     const index = this.product.findIndex((item) => item.id === id);
+    const product = this.product[index];
     if (index === -1) {
-      throw new Error('product not found');
+      throw boom.notFound('product not found');
+    }
+    if (product.isBlock) {
+      throw boom.locked('product is locked');
     }
     this.product.splice(index, 1);
     return { id };

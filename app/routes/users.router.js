@@ -7,36 +7,56 @@ const UserService = require('../services/users.service');
 const service = new UserService();
 // Creamos nuestro router
 const router = express.Router();
-router.get('/', (req, res) => {
-  const users = service.find();
-  const { limit, offset } = req.query;
-  if (limit && offset) {
-    res.status(200).json(users);
-  } else {
-    res.send('no hay parametros');
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await service.find();
+    const { limit, offset } = req.query;
+    if (limit && offset) {
+      res.status(200).json(users);
+    } else {
+      res.send('no hay parametros');
+    }
+  } catch (err) {
+    next(err);
   }
 });
-router.get('/:userId', (req, res) => {
-  // Hacemos la consulta
-  const { userId } = req.params;
-  const user = service.findOne(userId);
-  // Aquí enviamos nuestra respuesta
-  res.status(200).json(user);
+router.get('/:userId', async (req, res, next) => {
+  try {
+    // Hacemos la consulta
+    const { userId } = req.params;
+    const user = await service.findOne(userId);
+    // Aquí enviamos nuestra respuesta
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
 });
-router.post('/', (req, res) => {
-  const body = req.body;
-  const user = service.create(body);
-  res.status(201).json(user);
+router.post('/', async (req, res, next) => {
+  try {
+    const body = req.body;
+    const user = await service.create(body);
+    res.status(201).json(user);
+  } catch (err) {
+    next(err);
+  }
 });
-router.patch('/:userId', (req, res) => {
-  const { userId } = req.params;
-  const body = req.body;
-  const user = service.update(userId, body);
-  res.json(user);
+router.patch('/:userId', async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const body = req.body;
+    const user = await service.update(userId, body);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
 });
-router.delete('/:userId', (req, res) => {
-  const { userId } = req.params;
-  const user = service.delete(userId);
-  res.json(user);
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const user = await service.delete(userId);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
 });
 module.exports = router;

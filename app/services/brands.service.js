@@ -1,5 +1,7 @@
 // Traemos Faker
 const faker = require('faker');
+// Traemos Boom
+const boom = require('@hapi/boom');
 class BrandService {
   constructor() {
     this.brand = [];
@@ -14,7 +16,7 @@ class BrandService {
       });
     }
   }
-  create(data) {
+  async create(data) {
     const newBrand = {
       id: faker.datatype.uuid(),
       ...data,
@@ -23,15 +25,27 @@ class BrandService {
     return newBrand;
   }
   find() {
-    return this.brand;
+    const brand = this.brand;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (!brand) {
+          reject(boom.notFound('brands not found'));
+        }
+        resolve(brand);
+      }, 2000);
+    });
   }
-  findOne(id) {
-    return this.brand.find((item) => item.id === id);
+  async findOne(id) {
+    const brand = this.brand.find((item) => item.id === id);
+    if (!brand) {
+      throw boom.notFound('brand not found');
+    }
+    return brand;
   }
-  update(id, changes) {
+  async update(id, changes) {
     const index = this.brand.findIndex((item) => item.id === id);
     if (index === -1) {
-      throw new Error('brand not found');
+      throw boom.notFound('brand not found');
     }
     const brand = this.brand[index];
     this.brand[index] = {
@@ -40,10 +54,10 @@ class BrandService {
     };
     return this.brand[index];
   }
-  delete(id) {
+  async delete(id) {
     const index = this.brand.findIndex((item) => item.id === id);
     if (index === -1) {
-      throw new Error('product not found');
+      throw boom.notFound('brand not found');
     }
     this.brand.splice(index, 1);
     return { id };
