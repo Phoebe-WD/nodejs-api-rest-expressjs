@@ -9,8 +9,8 @@ Instalamos los paquetes que usaremos
 En nuestro package.json crearemos nuestros comandos:
 ```
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "dev": "nodemon app/server/index.js",
+    "start": "node app/server/index.js",
     "lint": "eslint"
   },
 ```
