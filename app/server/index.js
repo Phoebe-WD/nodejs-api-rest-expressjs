@@ -13,7 +13,7 @@ const {
 // Creamos nuestra app
 const app = express();
 // Declaramos nuestro puerto
-const port = 5000;
+const port = process.env.PORT || 5000;
 // Creamos nuestro middleware interno de express
 app.use(express.json());
 const whitelist = [
@@ -22,6 +22,7 @@ const whitelist = [
   'http://localhost:5500',
   'https://myapp.cl',
   'http://localhost:5000',
+  'http://localhost:4000',
 ];
 const options = {
   origin: (origin, cb) => {
@@ -40,7 +41,7 @@ app.use(cors(options));
  */
 app.get('/', (req, res) => {
   // Aquí enviamos nuestra respuesta
-  res.send('Hola mi server en express');
+  res.send('Hola desde mi server en express');
 });
 app.get('/nueva-ruta', (req, res) => {
   // Aquí enviamos nuestra respuesta

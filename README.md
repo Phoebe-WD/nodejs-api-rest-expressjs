@@ -192,3 +192,11 @@ Puedes encontrar más *middlewares* populares en el siguiente enlace:
 - Remover logs: No es bueno tener logs, a veces esto tiene demoras, existen mejor formas para capturar logs.
 - Seguridad (helmet): Muy importante la seguridad y para esto se recomienda helmet que es una colección de Middleware que colocan capas de segridad a la aplicación
 - Testing: Correr prebas unitarias o de integración antes de salir de producción
+
+
+## Deployment
+[Railway](https://railway.app/)
+
+[How to deploy](https://www.youtube.com/watch?v=ewoIdVjakns&ab_channel=AgustinNavarroGaldon)
+
+[Deploy](https://nodejs-api-rest-expressjs-production.up.railway.app/)
