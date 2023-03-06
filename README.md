@@ -182,3 +182,13 @@ Passport es un *middleware* que nos permite establecer diferentes estrategias de
 
 Puedes encontrar más *middlewares* populares en el siguiente enlace: 
 [Doc](http://expressjs.com/en/resources/middleware.html)
+
+
+## Consideraciones para el envio a Produccion:
+
+- Cors: Que acceso y a quienes le damos acceso para hacer solicitudes
+- HTTPS: Que la API esta sobre servidor de HTTPS
+- Procesos de Build: Se ve en procesos que cosas que tiene procesar información (typescript)
+- Remover logs: No es bueno tener logs, a veces esto tiene demoras, existen mejor formas para capturar logs.
+- Seguridad (helmet): Muy importante la seguridad y para esto se recomienda helmet que es una colección de Middleware que colocan capas de segridad a la aplicación
+- Testing: Correr prebas unitarias o de integración antes de salir de producción
