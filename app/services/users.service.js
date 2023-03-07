@@ -2,10 +2,16 @@
 const faker = require('faker');
 // Traemos Boom
 const boom = require('@hapi/boom');
+const pool = require('../libs/postgres.pool');
+// const getConnection = require('../libs/postgres');
 class UserService {
   constructor() {
     this.user = [];
     this.generate();
+    this.pool = pool;
+    this.pool.on('error', (err) => {
+      console.error(err);
+    });
   }
   generate() {
     const limit = 100;
@@ -27,16 +33,10 @@ class UserService {
     this.user.push(newUser);
     return newUser;
   }
-  find() {
-    const user = this.user;
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!user) {
-          reject(boom.notFound('users not found'));
-        }
-        resolve(user);
-      }, 2000);
-    });
+  async find() {
+    const query = 'SELECT * FROM tasks';
+    const rta = await this.pool.query(query);
+    return rta.rows;
   }
   async findOne(id) {
     const user = this.user.find((item) => item.id === id);

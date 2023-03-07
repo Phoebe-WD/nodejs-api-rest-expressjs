@@ -2,6 +2,8 @@
 const faker = require('faker');
 // Traemos Boom
 const boom = require('@hapi/boom');
+
+const sequelize = require('../libs/sequelize');
 class ProductService {
   constructor() {
     this.product = [];
@@ -28,16 +30,10 @@ class ProductService {
     this.product.push(newProduct);
     return newProduct;
   }
-  find() {
-    const product = this.product;
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!product) {
-          reject(boom.notFound('products not found'));
-        }
-        resolve(product);
-      }, 2000);
-    });
+  async find() {
+    const query = 'SELECT * FROM tasks';
+    const [data] = await sequelize.query(query);
+    return data;
   }
   async findOne(id) {
     const product = this.product.find((item) => item.id === id);

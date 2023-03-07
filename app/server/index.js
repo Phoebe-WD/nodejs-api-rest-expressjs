@@ -18,6 +18,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 const whitelist = [
   'http://localhost:8080',
+  '127.0.0.1:5432',
   'http://127.0.0.1:5500',
   'http://localhost:5500',
   'https://myapp.cl',

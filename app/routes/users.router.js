@@ -18,12 +18,13 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     const users = await service.find();
-    const { limit, offset } = req.query;
-    if (limit && offset) {
-      res.status(200).json(users);
-    } else {
-      res.send('no hay parametros');
-    }
+    // const { limit, offset } = req.query;
+    // if (limit && offset) {
+    //   res.status(200).json(users);
+    // } else {
+    //   res.send('no hay parametros');
+    // }
+    res.json(users);
   } catch (err) {
     next(err);
   }

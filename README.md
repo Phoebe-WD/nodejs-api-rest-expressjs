@@ -1,4 +1,4 @@
-# NodeJs API Rest con ExpressJs
+# NodeJs API Rest con ExpressJs, Backend con Node.js: Base de Datos con PostgreSQL, Autenticación con PassportJs & JWT
 
 ### Pre Config
 
@@ -200,3 +200,30 @@ Puedes encontrar más *middlewares* populares en el siguiente enlace:
 [How to deploy](https://www.youtube.com/watch?v=ewoIdVjakns&ab_channel=AgustinNavarroGaldon)
 
 [Deploy](https://nodejs-api-rest-expressjs-production.up.railway.app/)
+
+
+### Diferencia entre autenticación & autorización
+
+#### Autenticación: 
+Este proceso es para determinar si la combinación de usuario y contraseña son las correctas.
+
+**Si es correcta:**
+Nos dan una llave para acceder, (en este curso esa llave será un token generado por la librería jsonwebtoken )
+
+**Si NO es correcta:**
+El servidor nos prohibe continuar y lo normal es que nos responda con un código http 401 que significa Unauthorized
+
+#### Authorizacion: 
+Es cuando el servidor ya verificó que la contraseña y usuario son correctas y se le devolvió correctamente al usuario un token (la llave) pero se quiere usar esa llave para entrar a una parte del sitio **prohibido** para ese usuario, esto puede suceder cuando:
+
+- El usuario no es administrador y quiere acceder a una página sólo para admistradores (petición get) .
+- El usuario quiere realizar una petición tipo delete/post/put a un recurso pero sólo tiene permisos de lectura ese usuario.
+
+Lo normal es que el servidor responda con status code 403 cuando esto sucede
+
+![](https://www.redeszone.net/app/uploads-redeszone.net/2020/06/diferencias-autenticacion-autorizacion-3.jpg)
+
+
+### ¿Qué es un ORM?
+
+Un ORM es un modelo de programación que permite mapear las estructuras de una base de datos relacionales.
