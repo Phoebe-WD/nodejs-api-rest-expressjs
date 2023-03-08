@@ -2,6 +2,7 @@
 const faker = require('faker');
 // Traemos Boom
 const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 class CategoryService {
   constructor() {
     this.category = [];
@@ -18,23 +19,11 @@ class CategoryService {
     }
   }
   async create(data) {
-    const newCategory = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.category.push(newCategory);
-    return newCategory;
+    return data;
   }
-  find() {
-    const category = this.category;
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!category) {
-          reject(boom.notFound('categories not found'));
-        }
-        resolve(category);
-      }, 2000);
-    });
+  async find() {
+    const rta = await models.Category.findAll();
+    return rta;
   }
   async findOne(id) {
     return this.category.find((item) => item.id === id);

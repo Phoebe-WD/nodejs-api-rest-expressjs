@@ -3,7 +3,7 @@ const faker = require('faker');
 // Traemos Boom
 const boom = require('@hapi/boom');
 
-const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 class ProductService {
   constructor() {
     this.product = [];
@@ -23,17 +23,11 @@ class ProductService {
     }
   }
   async create(data) {
-    const newProduct = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.product.push(newProduct);
-    return newProduct;
+    return data;
   }
   async find() {
-    const query = 'SELECT * FROM tasks';
-    const [data] = await sequelize.query(query);
-    return data;
+    const rta = await models.Product.findAll();
+    return rta;
   }
   async findOne(id) {
     const product = this.product.find((item) => item.id === id);

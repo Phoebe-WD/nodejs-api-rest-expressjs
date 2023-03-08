@@ -9,6 +9,7 @@ const {
   logError,
   errorHandler,
   boomErrorHandler,
+  ormErrorHandler,
 } = require('../middlewares/error.handler');
 // Creamos nuestra app
 const app = express();
@@ -51,7 +52,9 @@ app.get('/nueva-ruta', (req, res) => {
 routerApi(app);
 // Utilizamos los middleware.
 // !Siempre deben ir después del routing:
+// * Se ejecutan según el orden
 app.use(logError);
+app.use(ormErrorHandler);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 /* Le decimos a nuestra app que escuche en el puerto que declaramos

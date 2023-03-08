@@ -2,6 +2,7 @@
 const faker = require('faker');
 // Traemos Boom
 const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 class BrandService {
   constructor() {
     this.brand = [];
@@ -17,23 +18,11 @@ class BrandService {
     }
   }
   async create(data) {
-    const newBrand = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.brand.push(newBrand);
-    return newBrand;
+    return data;
   }
-  find() {
-    const brand = this.brand;
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!brand) {
-          reject(boom.notFound('brands not found'));
-        }
-        resolve(brand);
-      }, 2000);
-    });
+  async find() {
+    const rta = await models.Brand.findAll();
+    return rta;
   }
   async findOne(id) {
     const brand = this.brand.find((item) => item.id === id);

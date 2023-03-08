@@ -12,5 +12,9 @@ const sequelize = new Sequelize(URI, {
 });
 
 setUpModels(sequelize);
-sequelize.sync();
+
+// Lee los modelos y crea las tablas
+// ! No se aconseja usarla en ambientes productivos.
+// sequelize.sync();
+
 module.exports = sequelize;

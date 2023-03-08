@@ -27,13 +27,13 @@ router.get('/', async (req, res, next) => {
   }
 });
 router.get(
-  '/:brandId',
+  '/:id',
   validatorHandler(getBrandSchema, 'params'),
   async (req, res, next) => {
     try {
       // Hacemos la consulta
-      const { brandId } = req.params;
-      const brand = await service.findOne(brandId);
+      const { id } = req.params;
+      const brand = await service.findOne(id);
       // Aquí enviamos nuestra respuesta
       res.status(200).json(brand);
     } catch (err) {
@@ -55,14 +55,14 @@ router.post(
   }
 );
 router.patch(
-  '/:brandId',
+  '/:id',
   validatorHandler(getBrandSchema, 'params'),
   validatorHandler(updateBrandSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { brandId } = req.params;
+      const { id } = req.params;
       const body = req.body;
-      const brand = await service.update(brandId, body);
+      const brand = await service.update(id, body);
       res.json(brand);
     } catch (err) {
       next(err);
@@ -70,12 +70,12 @@ router.patch(
   }
 );
 router.delete(
-  '/:brandId',
+  '/:id',
   validatorHandler(getBrandSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { brandId } = req.params;
-      const brand = await service.delete(brandId);
+      const { id } = req.params;
+      const brand = await service.delete(id);
       res.json(brand);
     } catch (err) {
       next(err);

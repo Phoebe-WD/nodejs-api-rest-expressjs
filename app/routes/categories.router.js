@@ -28,28 +28,28 @@ router.get('/', async (req, res, next) => {
   }
 });
 router.get(
-  '/:categoryId/products/:productId',
+  '/:id/products/:productId',
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     // Hacemos la consulta
     try {
-      const { categoryId, productId } = req.params;
+      const { id, productId } = req.params;
       // Aquí enviamos nuestra respuesta
       res.json([
         {
-          categoryId,
+          id,
           productId,
           category: 'Shoes',
           products: [],
         },
         {
-          categoryId,
+          id,
           productId,
           category: 'Boots',
           products: [],
         },
         {
-          categoryId,
+          id,
           productId,
           category: 'Slippers',
           products: [],
@@ -74,14 +74,14 @@ router.post(
   }
 );
 router.patch(
-  '/:categoryId',
+  '/:id',
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),
   async (req, res, next) => {
     try {
-      const { categoryId } = req.params;
+      const { id } = req.params;
       const body = req.body;
-      const category = await service.update(categoryId, body);
+      const category = await service.update(id, body);
       res.json(category);
     } catch (err) {
       next(err);
@@ -90,12 +90,12 @@ router.patch(
 );
 
 router.delete(
-  '/:categoryId',
+  '/:id',
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     try {
-      const { categoryId } = req.params;
-      const category = await service.delete(categoryId);
+      const { id } = req.params;
+      const category = await service.delete(id);
       res.json(category);
     } catch (err) {
       next(err);

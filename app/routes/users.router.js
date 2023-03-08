@@ -30,13 +30,13 @@ router.get('/', async (req, res, next) => {
   }
 });
 router.get(
-  '/:userId',
+  '/:id',
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
       // Hacemos la consulta
-      const { userId } = req.params;
-      const user = await service.findOne(userId);
+      const { id } = req.params;
+      const user = await service.findOne(id);
       // Aquí enviamos nuestra respuesta
       res.status(200).json(user);
     } catch (err) {
@@ -58,14 +58,14 @@ router.post(
   }
 );
 router.patch(
-  '/:userId',
+  '/:id',
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { userId } = req.params;
+      const { id } = req.params;
       const body = req.body;
-      const user = await service.update(userId, body);
+      const user = await service.update(id, body);
       res.json(user);
     } catch (err) {
       next(err);
@@ -73,12 +73,12 @@ router.patch(
   }
 );
 router.delete(
-  '/:userId',
+  '/:id',
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { userId } = req.params;
-      const user = await service.delete(userId);
+      const { id } = req.params;
+      const user = await service.delete(id);
       res.json(user);
     } catch (err) {
       next(err);

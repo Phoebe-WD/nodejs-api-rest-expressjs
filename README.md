@@ -227,3 +227,30 @@ Lo normal es que el servidor responda con status code 403 cuando esto sucede
 ### ¿Qué es un ORM?
 
 Un ORM es un modelo de programación que permite mapear las estructuras de una base de datos relacionales.
+
+
+### Comandos Docker
+
+|Comando| Descripción |
+|--|--|
+| docker-compose up -d nombreservicio | Levantamos nuestro servicio en docker |
+| docker-compose ps | Revisamos que esta corriendo |
+| docker ps | Revisamos los id de nuestros servicios |
+| docker inspect idservicio | Revisamos el servicio en específico |
+
+
+### ¿Qué son las migraciones?
+
+Las migraciones son:
+
+>Las migraciones son la forma en que Django propaga cambios en los modelos y los refleja en el esquema de bases de datos. - **Django**.
+
+>Las migraciones son como un sistema de control de versiones para la base de datos. - **Laravel**.
+
+>Es como un sistema de control de versiones para manejar los cambios desde el código y trackear los cambios en la base de datos. - **Sequelize**.
+
+Básicamente, las migraciones **mantienen el historial** del esquema que se lleva en la base de datos. Es un sistema muy usado en ambientes de producción para **trackear** los **cambios** sin tener que replicar todo nuevamente *(creación de tablas, llaves foráneas, etc)*. Es decir, permite saber en qué punto estaba para saber qué es lo que se tiene que modificar.
+
+
+### Asociaciones
+![](https://static.platzi.com/media/user_upload/Screen%20Shot%202021-10-25%20at%2013.25.34-0aa425c8-d2c0-4cba-ae01-f214e9604c14.jpg)

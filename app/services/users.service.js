@@ -2,16 +2,13 @@
 const faker = require('faker');
 // Traemos Boom
 const boom = require('@hapi/boom');
-const pool = require('../libs/postgres.pool');
+// const pool = require('../libs/postgres.pool');
 // const getConnection = require('../libs/postgres');
+const { models } = require('../libs/sequelize');
 class UserService {
   constructor() {
     this.user = [];
     this.generate();
-    this.pool = pool;
-    this.pool.on('error', (err) => {
-      console.error(err);
-    });
   }
   generate() {
     const limit = 100;
@@ -26,53 +23,28 @@ class UserService {
     }
   }
   async create(data) {
-    const newUser = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.user.push(newUser);
+    const newUser = await models.User.create(data);
     return newUser;
   }
   async find() {
-    const query = 'SELECT * FROM tasks';
-    const rta = await this.pool.query(query);
-    return rta.rows;
+    const rta = await models.User.findAll();
+    return rta;
   }
   async findOne(id) {
-    const user = this.user.find((item) => item.id === id);
+    const user = await models.User.findByPk(id);
     if (!user) {
       throw boom.notFound('user not found');
-    }
-    if (user.isBlock) {
-      throw boom.locked('user is locked');
     }
     return user;
   }
   async update(id, changes) {
-    const index = this.user.findIndex((item) => item.id === id);
-    const user = this.user[index];
-    if (index === -1) {
-      throw boom.notFound('user not found');
-    }
-    if (user.isBlock) {
-      throw boom.locked('user is locked');
-    }
-    this.user[index] = {
-      ...user,
-      ...changes,
-    };
-    return this.user[index];
+    const user = await this.findOne(id);
+    const rta = await user.update(changes);
+    return rta;
   }
   async delete(id) {
-    const index = this.user.findIndex((item) => item.id === id);
-    const user = this.user[index];
-    if (index === -1) {
-      throw boom.notFound('user not found');
-    }
-    if (user.isBlock) {
-      throw boom.locked('user is locked');
-    }
-    this.user.splice(index, 1);
+    const user = await this.findOne(id);
+    await user.destroy();
     return { id };
   }
 }
