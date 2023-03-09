@@ -27,7 +27,9 @@ class UserService {
     return newUser;
   }
   async find() {
-    const rta = await models.User.findAll();
+    const rta = await models.User.findAll({
+      include: ['customers'],
+    });
     return rta;
   }
   async findOne(id) {

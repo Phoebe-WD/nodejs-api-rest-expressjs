@@ -23,48 +23,31 @@ class ProductService {
     }
   }
   async create(data) {
-    return data;
+    const newProduct = await models.Product.create(data);
+    return newProduct;
   }
   async find() {
     const rta = await models.Product.findAll();
     return rta;
   }
   async findOne(id) {
-    const product = this.product.find((item) => item.id === id);
+    const product = await models.Product.findByPk(id);
     if (!product) {
       throw boom.notFound('product not found');
     }
-    if (product.isBlock) {
-      throw boom.locked('product is locked');
-    }
+    // if (product.isBlock) {
+    //   throw boom.locked('product is locked');
+    // }
     return product;
   }
   async update(id, changes) {
-    const index = this.product.findIndex((item) => item.id === id);
-    const product = this.product[index];
-    if (index === -1) {
-      throw boom.notFound('product not found');
-    }
-    if (product.isBlock) {
-      throw boom.locked('product is locked');
-    }
-
-    this.product[index] = {
-      ...product,
-      ...changes,
-    };
-    return this.product[index];
+    const product = await models.Product.findByPk(id);
+    const rta = await product.update(changes);
+    return rta;
   }
   async delete(id) {
-    const index = this.product.findIndex((item) => item.id === id);
-    const product = this.product[index];
-    if (index === -1) {
-      throw boom.notFound('product not found');
-    }
-    if (product.isBlock) {
-      throw boom.locked('product is locked');
-    }
-    this.product.splice(index, 1);
+    const product = await models.Product.findByPk(id);
+    await product.destroy();
     return { id };
   }
 }

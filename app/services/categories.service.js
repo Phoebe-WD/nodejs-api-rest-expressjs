@@ -19,33 +19,28 @@ class CategoryService {
     }
   }
   async create(data) {
-    return data;
+    const category = await models.Category.create(data);
+    return category;
   }
   async find() {
     const rta = await models.Category.findAll();
     return rta;
   }
   async findOne(id) {
-    return this.category.find((item) => item.id === id);
+    const category = await models.Category.findByPk(id);
+    if (!category) {
+      throw boom.notFound('category not found');
+    }
+    return category;
   }
   async update(id, changes) {
-    const index = this.category.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('category not found');
-    }
-    const category = this.category[index];
-    this.category[index] = {
-      ...category,
-      ...changes,
-    };
-    return this.category[index];
+    const category = await this.findOne(id);
+    const rta = await category.update(changes);
+    return rta;
   }
   async delete(id) {
-    const index = this.category.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('category not found');
-    }
-    this.category.splice(index, 1);
+    const category = await this.findOne(id);
+    await category.destroy();
     return { id };
   }
 }

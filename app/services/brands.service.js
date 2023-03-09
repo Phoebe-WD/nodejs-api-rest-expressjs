@@ -18,37 +18,28 @@ class BrandService {
     }
   }
   async create(data) {
-    return data;
+    const newBrand = await models.Brand.create(data);
+    return newBrand;
   }
   async find() {
     const rta = await models.Brand.findAll();
     return rta;
   }
   async findOne(id) {
-    const brand = this.brand.find((item) => item.id === id);
+    const brand = await models.Brand.findByPk(id);
     if (!brand) {
       throw boom.notFound('brand not found');
     }
     return brand;
   }
   async update(id, changes) {
-    const index = this.brand.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('brand not found');
-    }
-    const brand = this.brand[index];
-    this.brand[index] = {
-      ...brand,
-      ...changes,
-    };
-    return this.brand[index];
+    const brand = this.findOne(id);
+    const rta = await (await brand).update(changes);
+    return rta;
   }
   async delete(id) {
-    const index = this.brand.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('brand not found');
-    }
-    this.brand.splice(index, 1);
+    const brand = this.findOne(id);
+    await brand.destroy();
     return { id };
   }
 }

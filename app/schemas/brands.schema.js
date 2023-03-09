@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const id = Joi.string().uuid();
+const id = Joi.number().integer();
 const brandName = Joi.string().min(3).max(15).required();
 
 const createBrandSchema = Joi.object({

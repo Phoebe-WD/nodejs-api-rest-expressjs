@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const id = Joi.string().uuid();
+const id = Joi.number().integer();
 const categoryName = Joi.string().min(3).max(15).required();
 
 const createCategorySchema = Joi.object({
