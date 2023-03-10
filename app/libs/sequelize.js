@@ -2,9 +2,14 @@ const { Sequelize } = require('sequelize');
 const { config } = require('../config/config');
 const setUpModels = require('../db/models/index');
 
-const USER = encodeURIComponent(config.dbUser);
-const PASS = encodeURIComponent(config.dbPassword);
-const URI = `postgres://${USER}:${PASS}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+let URI = '';
+if (config.isProd) {
+  URI = config.dbUrl;
+} else {
+  const USER = encodeURIComponent(config.dbUser);
+  const PASS = encodeURIComponent(config.dbPassword);
+  URI = `postgres://${USER}:${PASS}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+}
 
 const sequelize = new Sequelize(URI, {
   dialect: 'postgres',
