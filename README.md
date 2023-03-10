@@ -254,3 +254,16 @@ Básicamente, las migraciones **mantienen el historial** del esquema que se llev
 
 ### Asociaciones
 ![](https://static.platzi.com/media/user_upload/Screen%20Shot%202021-10-25%20at%2013.25.34-0aa425c8-d2c0-4cba-ae01-f214e9604c14.jpg)
+
+
+### Limit & Offset (Paginación)
+
+>**Limit** → Límite de elementos que deseo traer en cada página.
+
+>**Offset** → Apuntador, es decir, cuántos elementos quiero escapar.
+
+Ejemplo: Si en una página tengo una lista de elementos [1, 2, 4, 5, 6]. Si limit = 2 y offset = 0, el resultado será [1, 2].
+
+Si deseo que en la siguiente página siga trayendo 2 elementos, entonces limit = 2 y offset = 2, solo cambia el apuntador. El resultado será [3, 4].
+
+Si deseo que en la siguiente página siga trayendo 2 elementos, entonces limit = 2 y offset = 4. El resultado será [5, 6].

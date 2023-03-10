@@ -13,20 +13,25 @@ const {
   createProductSchema,
   updateProductSchema,
   getProductSchema,
+  queryProductSchema,
 } = require('../schemas/product.schema');
 // Creamos nuestro router
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
-  try {
-    const products = await service.find();
-    // const { size } = req.query;
-    // Aquí enviamos nuestra respuesta
-    res.json(products);
-  } catch (err) {
-    next(err);
+router.get(
+  '/',
+  validatorHandler(queryProductSchema, 'query'),
+  async (req, res, next) => {
+    try {
+      const products = await service.find(req.query);
+      // const { size } = req.query;
+      // Aquí enviamos nuestra respuesta
+      res.json(products);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 // Los endpoints especificos deben ir antes que los dinamicos
 router.get('/filter', (req, res) => {
   res.send('yo soy un filter');
