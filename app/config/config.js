@@ -9,6 +9,7 @@ const config = {
   dbPort: process.env.DB_PORT,
   dbHost: process.env.DB_HOST,
   dbEngine: process.env.DB_ENGINE,
+  dbRail: process.env.DB_RAILWAY,
 };
 
 module.exports = { config };
