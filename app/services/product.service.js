@@ -27,17 +27,16 @@ class ProductService {
     return newProduct;
   }
   async find() {
-    const rta = await models.Product.findAll();
-    return rta;
+    const products = await models.Product.findAll({
+      include: ['category'],
+    });
+    return products;
   }
   async findOne(id) {
     const product = await models.Product.findByPk(id);
     if (!product) {
       throw boom.notFound('product not found');
     }
-    // if (product.isBlock) {
-    //   throw boom.locked('product is locked');
-    // }
     return product;
   }
   async update(id, changes) {

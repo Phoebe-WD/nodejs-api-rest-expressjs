@@ -28,33 +28,15 @@ router.get('/', async (req, res, next) => {
   }
 });
 router.get(
-  '/:id/products/:productId',
+  '/:id',
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     // Hacemos la consulta
     try {
-      const { id, productId } = req.params;
+      const { id } = req.params;
       // Aquí enviamos nuestra respuesta
-      res.json([
-        {
-          id,
-          productId,
-          category: 'Shoes',
-          products: [],
-        },
-        {
-          id,
-          productId,
-          category: 'Boots',
-          products: [],
-        },
-        {
-          id,
-          productId,
-          category: 'Slippers',
-          products: [],
-        },
-      ]);
+      const category = await service.findOne(id);
+      res.json(category);
     } catch (err) {
       next(err);
     }

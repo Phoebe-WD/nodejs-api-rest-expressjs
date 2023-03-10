@@ -1,33 +1,23 @@
-// Traemos Faker
-const faker = require('faker');
 // Traemos Boom
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 class CategoryService {
   constructor() {
     this.category = [];
-    this.generate();
   }
-  generate() {
-    const limit = 100;
-    for (let i = 0; i < limit; i++) {
-      this.category.push({
-        id: faker.datatype.uuid(),
-        categoryName: faker.commerce.department(),
-        products: [],
-      });
-    }
-  }
+
   async create(data) {
-    const category = await models.Category.create(data);
-    return category;
+    const newCategory = await models.Category.create(data);
+    return newCategory;
   }
   async find() {
-    const rta = await models.Category.findAll();
-    return rta;
+    const category = await models.Category.findAll();
+    return category;
   }
   async findOne(id) {
-    const category = await models.Category.findByPk(id);
+    const category = await models.Category.findByPk(id, {
+      include: 'product',
+    });
     if (!category) {
       throw boom.notFound('category not found');
     }
