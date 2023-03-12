@@ -1,5 +1,6 @@
 // Traemos express
 const express = require('express');
+const passport = require('passport');
 // Traemos Faker
 // const faker = require('faker');
 // Traemos nuestro servicio
@@ -8,6 +9,8 @@ const ProductService = require('../services/product.service');
 const service = new ProductService();
 // Traemos nuestro middleware validador
 const validatorHandler = require('../middlewares/validator.handler');
+const { checkRoles } = require('../middlewares/auth.handler');
+
 // Traemos nuestro schemas
 const {
   createProductSchema,
@@ -20,6 +23,8 @@ const router = express.Router();
 
 router.get(
   '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller', 'customer', 'customers'),
   validatorHandler(queryProductSchema, 'query'),
   async (req, res, next) => {
     try {
@@ -39,6 +44,8 @@ router.get('/filter', (req, res) => {
 // Endpoint dinamico
 router.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller', 'customer', 'customers'),
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -53,15 +60,23 @@ router.get(
 
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller'),
   validatorHandler(createProductSchema, 'body'),
-  async (req, res) => {
-    const body = req.body;
-    const newProduct = await service.create(body);
-    res.status(201).json(newProduct);
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newProduct = await service.create(body);
+      res.status(201).json(newProduct);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 router.patch(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller'),
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
   async (req, res, next) => {
@@ -77,6 +92,8 @@ router.patch(
 );
 router.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller'),
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
     try {

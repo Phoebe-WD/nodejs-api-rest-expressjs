@@ -11,6 +11,7 @@ const {
   boomErrorHandler,
   ormErrorHandler,
 } = require('../middlewares/error.handler');
+const { checkApiKey } = require('../middlewares/auth.handler');
 // Creamos nuestra app
 const app = express();
 // Declaramos nuestro puerto
@@ -45,11 +46,15 @@ app.get('/', (req, res) => {
   // Aquí enviamos nuestra respuesta
   res.send('Hola desde mi server en express');
 });
-app.get('/nueva-ruta', (req, res) => {
+app.get('/nueva-ruta', checkApiKey, (req, res) => {
   // Aquí enviamos nuestra respuesta
   res.send('Hola, soy una nueva ruta/endpoint');
 });
+const passport = require('passport');
+// Antes de nuestras rutas debemos de colocar esto
+app.use(passport.initialize());
 routerApi(app);
+require('../utils/auth');
 // Utilizamos los middleware.
 // !Siempre deben ir después del routing:
 // * Se ejecutan según el orden

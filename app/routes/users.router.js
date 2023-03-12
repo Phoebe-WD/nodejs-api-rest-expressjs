@@ -1,5 +1,6 @@
 // Traemos express
 const express = require('express');
+const passport = require('passport');
 // Traemos Faker
 // const faker = require('faker');
 const UserService = require('../services/users.service');
@@ -7,6 +8,8 @@ const UserService = require('../services/users.service');
 const service = new UserService();
 // Traemos nuestro middleware validador
 const validatorHandler = require('../middlewares/validator.handler');
+const { checkRoles } = require('../middlewares/auth.handler');
+
 // Traemos nuestro schemas
 const {
   createUserSchema,
@@ -15,22 +18,29 @@ const {
 } = require('../schemas/users.schema');
 // Creamos nuestro router
 const router = express.Router();
-router.get('/', async (req, res, next) => {
-  try {
-    const users = await service.find();
-    // const { limit, offset } = req.query;
-    // if (limit && offset) {
-    //   res.status(200).json(users);
-    // } else {
-    //   res.send('no hay parametros');
-    // }
-    res.json(users);
-  } catch (err) {
-    next(err);
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller', 'customer', 'customers'),
+  async (req, res, next) => {
+    try {
+      const users = await service.find();
+      // const { limit, offset } = req.query;
+      // if (limit && offset) {
+      //   res.status(200).json(users);
+      // } else {
+      //   res.send('no hay parametros');
+      // }
+      res.json(users);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 router.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller', 'customer', 'customers'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -46,6 +56,8 @@ router.get(
 );
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller'),
   validatorHandler(createUserSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -59,6 +71,8 @@ router.post(
 );
 router.patch(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller'),
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
@@ -74,6 +88,8 @@ router.patch(
 );
 router.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
+  checkRoles('admin', 'seller'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {

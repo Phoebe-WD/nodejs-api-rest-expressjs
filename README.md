@@ -153,35 +153,35 @@ Casos de usos según el profe:
 ### CORS
 *Middleware* para habilitar CORS (Cross-origin resource sharing) en nuestras rutas o aplicación. 
 
-[Doc](http://expressjs.com/en/resources/middleware/cors.html)
+[Documentación](http://expressjs.com/en/resources/middleware/cors.html)
 
 ### Morgan
 Un *logger* de solicitudes HTTP para Node.js. 
 
-[Doc](http://expressjs.com/en/resources/middleware/morgan.html)
+[Documentación](http://expressjs.com/en/resources/middleware/morgan.html)
 
 ### Helmet
 Helmet nos ayuda a proteger nuestras aplicaciones Express configurando varios encabezados HTTP. ¡No es a prueba de balas de plata, pero puede ayudar! 
 
-[Doc](https://github.com/helmetjs/helmet)
+[Documentación](https://github.com/helmetjs/helmet)
 
 ### Express Debug
 Nos permite hacer *debugging* de nuestras aplicaciones en Express mediante el uso de un toolbar en la pagina cuando las estamos desarrollando. 
 
-[Doc](https://github.com/devoidfury/express-debug)
+[Documentación](https://github.com/devoidfury/express-debug)
 
 ### Express Slash
 Este *middleware* nos permite evitar preocuparnos por escribir las rutas con o sin slash al final de ellas. 
 
-[Doc](https://github.com/ericf/express-slash)
+[Documentaciónc](https://github.com/ericf/express-slash)
 
 ### Passport
 Passport es un *middleware* que nos permite establecer diferentes estrategias de autenticación a nuestras aplicaciones. 
 
-[Doc](https://github.com/jaredhanson/passport)
+[Documentación](https://github.com/jaredhanson/passport)
 
 Puedes encontrar más *middlewares* populares en el siguiente enlace: 
-[Doc](http://expressjs.com/en/resources/middleware.html)
+[Documentación](http://expressjs.com/en/resources/middleware.html)
 
 
 ## Consideraciones para el envio a Produccion:
@@ -267,3 +267,26 @@ Ejemplo: Si en una página tengo una lista de elementos [1, 2, 4, 5, 6]. Si limi
 Si deseo que en la siguiente página siga trayendo 2 elementos, entonces limit = 2 y offset = 2, solo cambia el apuntador. El resultado será [3, 4].
 
 Si deseo que en la siguiente página siga trayendo 2 elementos, entonces limit = 2 y offset = 4. El resultado será [5, 6].
+
+
+### Passport Js
+
+Es una serie de librerías y estrategias que nos brinda para hacer la capa de autenticación, permite generar varias estrategias (twitter, github, facebook, etc.) teniendo un código base para logearnos de diferentes maneras.
+
+[Documentación](https://www.passportjs.org/)
+### JWT (Json Web Tokens)
+
+**JWT (JSON Web Tokens)** es una tecnología moderna que nos permite comprobar datos y en el caso de ser cierto nos dará una llave. Es una forma de manejar sesiones.
+
+Los JWT son stateless. Es decir que no importa dónde éste, dentro suyo tiene información que dice si inició sesión y qué permisos tiene.
+
+**Composición de un JWT**
+
+Tiene tres partes. Son separadas por un punto.
+
+- **Header**: Nos da el algoritmo de encriptación y el tipo
+- **Payload**: Información encerrada. Dueño del token, fecha de creación, etc.
+- **Verify Signature**: Key que verifica que existe el user. La key es sólo del backend.
+
+[Documentación](https://jwt.io/introduction)
+

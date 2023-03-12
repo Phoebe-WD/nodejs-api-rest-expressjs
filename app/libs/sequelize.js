@@ -2,10 +2,10 @@ const { Sequelize } = require('sequelize');
 const { config } = require('../config/config');
 const setUpModels = require('../db/models/index');
 
-//   const USER = encodeURIComponent(config.dbUser);
-//   const PASS = encodeURIComponent(config.dbPassword);
-//  const URI = `postgres://${USER}:${PASS}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
-const URI = config.dbUrl;
+const USER = encodeURIComponent(config.dbUser);
+const PASS = encodeURIComponent(config.dbPassword);
+const URI = `postgres://${USER}:${PASS}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+// const URI = config.dbUrl;
 
 const sequelize = new Sequelize(URI, {
   dialect: 'postgres',

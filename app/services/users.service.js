@@ -1,34 +1,34 @@
 // Traemos Faker
-const faker = require('faker');
+// const faker = require('faker');
 // Traemos Boom
 const boom = require('@hapi/boom');
 // const pool = require('../libs/postgres.pool');
 // const getConnection = require('../libs/postgres');
 const { models } = require('../libs/sequelize');
+const bcrypt = require('bcrypt');
 class UserService {
   constructor() {
     this.user = [];
-    this.generate();
   }
-  generate() {
-    const limit = 100;
-    for (let i = 0; i < limit; i++) {
-      this.user.push({
-        id: faker.datatype.uuid(),
-        image: faker.internet.avatar(),
-        userName: faker.internet.userName(),
-        email: faker.internet.email(),
-        isBlock: faker.datatype.boolean(),
-      });
-    }
-  }
+
   async create(data) {
-    const newUser = await models.User.create(data);
+    const hash = await bcrypt.hash(data.password, 10);
+    const newUser = await models.User.create({
+      ...data,
+      password: hash,
+    });
+    delete newUser.dataValues.password;
     return newUser;
   }
   async find() {
     const rta = await models.User.findAll({
       include: ['customers'],
+    });
+    return rta;
+  }
+  async findByEmail(email) {
+    const rta = await models.User.findOne({
+      where: { email },
     });
     return rta;
   }

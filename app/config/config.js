@@ -11,6 +11,8 @@ const config = {
   dbHost: process.env.DB_HOST,
   dbEngine: process.env.DB_ENGINE,
   dbUrl: process.env.DATABASE_URL,
+  apiKey: process.env.API_KEY,
+  mySecret: process.env.MY_SECRET,
 };
 
 module.exports = { config };
