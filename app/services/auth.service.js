@@ -12,11 +12,14 @@ class AuthService {
     if (!user) {
       throw boom.unauthorized('Sorry, this email does not exist');
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw boom.unauthorized('Ups! Wrong password');
     }
     delete user.dataValues.password;
+    delete user.dataValues.recoveryToken;
+    return user;
   }
   signToken(user) {
     const payload = {
