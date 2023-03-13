@@ -23,19 +23,51 @@ class AuthService {
       sub: user.id,
       role: user.role,
     };
-    const secret = config.mySecret;
-
-    const token = jwt.sign(payload, secret);
+    const token = jwt.sign(payload, config.mySecret);
     return {
       user,
       token,
     };
   }
-  async sendMail(email) {
+
+  async sendRecovery(email) {
     const user = await service.findByEmail(email);
     if (!user) {
       throw boom.unauthorized('Sorry, you do not have permission');
     }
+    const payload = {
+      sub: user.id,
+    };
+    const secret = config.mySecret;
+
+    const token = jwt.sign(payload, secret, { expiresIn: '15min' });
+    const link = `http://myfrotend.com/recovery?token=${token}`;
+    await service.update(user.id, { recoveryToken: token });
+    const mail = {
+      from: `'Phoebe 👩‍💻' <${config.appEmail}>`, // sender address
+      to: `${user.email}`, // list of receivers
+      subject: 'Hello ❤, here is the link to recover your password', // Subject line
+      text: 'Buenas buenas', // plain text body
+      html: `<b>Enter to this link => ${link} </b>`, // html body
+    };
+    const rta = await this.sendMail(mail);
+    return rta;
+  }
+  async changePassword(token, newPassword) {
+    try {
+      const payload = jwt.verify(token, config.mySecret);
+      const user = await service.findOne(payload.sub);
+      if (user.recoveryToken !== token) {
+        throw boom.unauthorized('Sorry, you do not have permission');
+      }
+      const hash = await bcrypt.hash(newPassword, 10);
+      await service.update(user.id, { recoveryToken: null, password: hash });
+      return { message: 'password changed successfully' };
+    } catch (error) {
+      boom.unauthorized('Sorry, you do not have permission');
+    }
+  }
+  async sendMail(infoMail) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -44,13 +76,7 @@ class AuthService {
         pass: config.appPassword,
       },
     });
-    await transporter.sendMail({
-      from: `'Phoebe 👩‍💻' <${config.appEmail}>`, // sender address
-      to: `${user.email}`, // list of receivers
-      subject: 'Hello ❤', // Subject line
-      text: 'Buenas buenas', // plain text body
-      html: '<b>Nani?</b>', // html body
-    });
+    await transporter.sendMail(infoMail);
     return { message: 'mail sent successfully' };
   }
 }

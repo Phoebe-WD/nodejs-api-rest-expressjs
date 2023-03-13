@@ -290,3 +290,6 @@ Tiene tres partes. Son separadas por un punto.
 
 [Documentación](https://jwt.io/introduction)
 
+### Nodemailer
+
+[Documentación](http://nodemailer.com/about/)

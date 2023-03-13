@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   loginAuthSchema,
   recoveryAuthSchema,
+  changePasswordSchema,
 } = require('../schemas/loginAuth.schema');
 const validatorHandler = require('../middlewares/validator.handler');
 const AuthService = require('../services/auth.service');
@@ -28,7 +29,20 @@ router.post(
   async (req, res, next) => {
     try {
       const { email } = req.body;
-      const rta = await service.sendMail(email);
+      const rta = await service.sendRecovery(email);
+      res.json(rta);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post(
+  '/change-password',
+  validatorHandler(changePasswordSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { token, newPassword } = req.body;
+      const rta = await service.changePassword(token, newPassword);
       res.json(rta);
     } catch (error) {
       next(error);

@@ -5,6 +5,8 @@ const email = Joi.string().email({
   tlds: { allow: ['com', 'net'] },
 });
 const password = Joi.string().min(8);
+const newPassword = Joi.string().min(8);
+const token = Joi.string();
 
 const loginAuthSchema = Joi.object({
   email: email.required(),
@@ -15,4 +17,9 @@ const recoveryAuthSchema = Joi.object({
   email: email.required(),
 });
 
-module.exports = { loginAuthSchema, recoveryAuthSchema };
+const changePasswordSchema = Joi.object({
+  token: token.required(),
+  newPassword: newPassword.required(),
+});
+
+module.exports = { loginAuthSchema, recoveryAuthSchema, changePasswordSchema };
