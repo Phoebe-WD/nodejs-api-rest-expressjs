@@ -20,6 +20,7 @@ class CustomerService {
     delete newCustomer.dataValues.user.dataValues.password;
     return newCustomer;
   }
+
   async find() {
     const rta = await models.Customer.findAll({
       include: ['user'],

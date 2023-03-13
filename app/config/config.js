@@ -13,6 +13,8 @@ const config = {
   dbUrl: process.env.DATABASE_URL,
   apiKey: process.env.API_KEY,
   mySecret: process.env.MY_SECRET,
+  appPassword: process.env.APP_PASSWORD,
+  appEmail: process.env.APP_EMAIL,
 };
 
 module.exports = { config };
